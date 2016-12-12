@@ -19,10 +19,10 @@ import android.view.View;
  * Created by fanrunqi on 2016/7/6.
  */
 public class WaveProgressView extends View {
-    private int width;
-    private int height;
+    private int mWidth;
+    private int mHeight;
 
-    private Bitmap backgroundBitmap;
+    private Bitmap mBackgroundBitmap;
 
     private Path mPath;
     private Paint mPathPaint;
@@ -33,16 +33,16 @@ public class WaveProgressView extends View {
     private  int  mWaveSpeed = 30;
 
     private Paint mTextPaint;
-    private String currentText = "";
+    private String mCurrentText = "";
     private String mTextColor = "#FFFFFF";
     private int mTextSize = 41;
 
-    private int maxProgress = 100;
-    private int currentProgress = 0;
-    private float CurY;
+    private int mMaxProgress = 100;
+    private int mCurrentProgress = 0;
+    private float mCurY;
 
-    private float distance = 0;
-    private int RefreshGap = 10;
+    private float mDistance = 0;
+    private int mRefreshGap = 10;
 
     private static final int INVALIDATE = 0X777;
     private Handler handler = new Handler() {
@@ -52,7 +52,7 @@ public class WaveProgressView extends View {
             switch (msg.what) {
                 case INVALIDATE:
                     invalidate();
-                    sendEmptyMessageDelayed(INVALIDATE,RefreshGap);
+                    sendEmptyMessageDelayed(INVALIDATE, mRefreshGap);
                     break;
             }
         }
@@ -72,13 +72,13 @@ public class WaveProgressView extends View {
     }
 
     public void setCurrent(int currentProgress,String currentText) {
-        this.currentProgress = currentProgress;
-        this.currentText = currentText;
+        this.mCurrentProgress = currentProgress;
+        this.mCurrentText = currentText;
     }
 
 
     public void setMaxProgress(int maxProgress){
-        this.maxProgress = maxProgress;
+        this.mMaxProgress = maxProgress;
     }
 
 
@@ -105,7 +105,7 @@ public class WaveProgressView extends View {
         if(null==getBackground()){
             throw new IllegalArgumentException(String.format("background is null."));
         }else{
-            backgroundBitmap = getBitmapFromDrawable(getBackground());
+            mBackgroundBitmap = getBitmapFromDrawable(getBackground());
         }
 
         mPath = new Path();
@@ -124,13 +124,13 @@ public class WaveProgressView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        width = MeasureSpec.getSize(widthMeasureSpec);
-        CurY = height = MeasureSpec.getSize(heightMeasureSpec);
+        mWidth = MeasureSpec.getSize(widthMeasureSpec);
+        mCurY = mHeight = MeasureSpec.getSize(heightMeasureSpec);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if(backgroundBitmap!=null){
+        if(mBackgroundBitmap !=null){
 
             canvas.drawBitmap(createImage(), 0, 0, null);
         }
@@ -143,40 +143,40 @@ public class WaveProgressView extends View {
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        Bitmap finalBmp = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
+        Bitmap finalBmp = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(finalBmp);
 
-        float CurMidY = height*(maxProgress-currentProgress)/maxProgress;
-        if(CurY>CurMidY){
-            CurY = CurY - (CurY-CurMidY)/10;
+        float CurMidY = mHeight *(mMaxProgress - mCurrentProgress)/ mMaxProgress;
+        if(mCurY >CurMidY){
+            mCurY = mCurY - (mCurY -CurMidY)/10;
         }
         mPath.reset();
-        mPath.moveTo(0-distance,CurY);
+        mPath.moveTo(0- mDistance, mCurY);
 
-        int waveNum = width/((int)mWaveHalfWidth*4)+1;
+        int waveNum = mWidth /((int)mWaveHalfWidth*4)+1;
         int multiplier = 0;
         for(int i =0;i<waveNum;i++){
-         mPath.quadTo(mWaveHalfWidth*(multiplier+1)-distance,CurY- mWaveHeight,mWaveHalfWidth*(multiplier+2)-distance,CurY);
-         mPath.quadTo(mWaveHalfWidth*(multiplier+3)-distance,CurY+ mWaveHeight,mWaveHalfWidth*(multiplier+4)-distance,CurY);
+         mPath.quadTo(mWaveHalfWidth*(multiplier+1)- mDistance, mCurY - mWaveHeight,mWaveHalfWidth*(multiplier+2)- mDistance, mCurY);
+         mPath.quadTo(mWaveHalfWidth*(multiplier+3)- mDistance, mCurY + mWaveHeight,mWaveHalfWidth*(multiplier+4)- mDistance, mCurY);
          multiplier+=4;
         }
-        distance +=mWaveHalfWidth/mWaveSpeed;
-        distance = distance%(mWaveHalfWidth*4);
+        mDistance +=mWaveHalfWidth/mWaveSpeed;
+        mDistance = mDistance %(mWaveHalfWidth*4);
 
-        mPath.lineTo(width,height);
-        mPath.lineTo(0,height);
+        mPath.lineTo(mWidth, mHeight);
+        mPath.lineTo(0, mHeight);
         mPath.close();
         canvas.drawPath(mPath, mPathPaint);
 
-        int min = Math.min(width,height);
-        backgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,min,min,false);
+        int min = Math.min(mWidth, mHeight);
+        mBackgroundBitmap = Bitmap.createScaledBitmap(mBackgroundBitmap,min,min,false);
 
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_ATOP));
 
-        canvas.drawBitmap(backgroundBitmap,0,0,paint);
+        canvas.drawBitmap(mBackgroundBitmap,0,0,paint);
 
-        canvas.drawText(currentText, width/2, height/2, mTextPaint);
+        canvas.drawText(mCurrentText, mWidth /2, mHeight /2, mTextPaint);
         return finalBmp;
     }
 
