@@ -27,7 +27,7 @@ public class WaveProgressView extends View {
     private Path mPath;
     private Paint mPathPaint;
 
-    private float mWaveHight = 20f;
+    private float mWaveHeight = 20f;
     private float mWaveHalfWidth = 100f;
     private String mWaveColor = "#5be4ef";
     private  int  mWaveSpeed = 30;
@@ -88,7 +88,7 @@ public class WaveProgressView extends View {
     }
 
     public void setWave(float mWaveHight,float mWaveWidth){
-        this.mWaveHight = mWaveHight;
+        this.mWaveHeight = mWaveHight;
         this.mWaveHalfWidth = mWaveWidth/2;
     }
 
@@ -97,7 +97,7 @@ public class WaveProgressView extends View {
         this.mWaveColor = mWaveColor;
     }
 
-    public void setmWaveSpeed(int mWaveSpeed){
+    public void setWaveSpeed(int mWaveSpeed){
       this.mWaveSpeed = mWaveSpeed;
     }
     private void Init() {
@@ -157,8 +157,8 @@ public class WaveProgressView extends View {
         int waveNum = width/((int)mWaveHalfWidth*4)+1;
         int multiplier = 0;
         for(int i =0;i<waveNum;i++){
-         mPath.quadTo(mWaveHalfWidth*(multiplier+1)-distance,CurY-mWaveHight,mWaveHalfWidth*(multiplier+2)-distance,CurY);
-         mPath.quadTo(mWaveHalfWidth*(multiplier+3)-distance,CurY+mWaveHight,mWaveHalfWidth*(multiplier+4)-distance,CurY);
+         mPath.quadTo(mWaveHalfWidth*(multiplier+1)-distance,CurY- mWaveHeight,mWaveHalfWidth*(multiplier+2)-distance,CurY);
+         mPath.quadTo(mWaveHalfWidth*(multiplier+3)-distance,CurY+ mWaveHeight,mWaveHalfWidth*(multiplier+4)-distance,CurY);
          multiplier+=4;
         }
         distance +=mWaveHalfWidth/mWaveSpeed;
