@@ -44,6 +44,8 @@ public class WaveProgressView extends View {
     private float mDistance = 0;
     private int mRefreshGap = 10;
 
+    private boolean mAllowProgressInBothDirections = false;
+
     private static final int INVALIDATE = 0X777;
     private Handler handler = new Handler() {
         @Override
@@ -102,6 +104,10 @@ public class WaveProgressView extends View {
         this.mWaveSpeed = mWaveSpeed;
     }
 
+    public void allowProgressInBothDirections(boolean allow) {
+        this.mAllowProgressInBothDirections = allow;
+    }
+
     private void Init() {
 
         if (null == getBackground()) {
@@ -151,7 +157,7 @@ public class WaveProgressView extends View {
 
         float CurMidY = mHeight * (mMaxProgress - mCurrentProgress) / mMaxProgress;
 
-        if (mCurY > CurMidY) {
+        if (mAllowProgressInBothDirections || mCurY > CurMidY) {
             mCurY = mCurY - (mCurY - CurMidY) / 10;
         }
         mPath.reset();
