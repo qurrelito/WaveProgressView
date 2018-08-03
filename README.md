@@ -1,7 +1,5 @@
 # WaveProgressView
 
-wave load view
-
 
 The effect：
 
