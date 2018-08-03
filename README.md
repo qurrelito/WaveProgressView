@@ -1,6 +1,6 @@
 # WaveProgressView
 
-most powerful wave load view , you can custom  any style  by yourself .
+wave load view
 
 
 The effect：
