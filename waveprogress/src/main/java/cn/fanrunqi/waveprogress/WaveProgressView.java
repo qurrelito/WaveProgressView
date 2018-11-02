@@ -124,21 +124,29 @@ public class WaveProgressView extends View {
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
+    }
+    
+    @override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        handler.sendEmptyMessage(INVALIDATE);
+    }
 
-        handler.sendEmptyMessageDelayed(INVALIDATE, 100);
+    @override
+    protected void onDetachedFromWindow() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDetachedFromWindow();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         mCurY = mHeight = MeasureSpec.getSize(heightMeasureSpec);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         if (mBackgroundBitmap != null) {
             canvas.drawBitmap(createImage(), 0, 0, null);
         }
