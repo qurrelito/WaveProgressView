@@ -60,7 +60,6 @@ public class WaveProgressView extends View {
         }
     };
 
-
     public WaveProgressView(Context context) {
         this(context, null, 0);
     }
@@ -84,7 +83,6 @@ public class WaveProgressView extends View {
         this.mMaxProgress = maxProgress;
     }
 
-
     public void setText(String mTextColor, int mTextSize) {
         this.mTextColor = mTextColor;
         this.mTextSize = mTextSize;
@@ -94,7 +92,6 @@ public class WaveProgressView extends View {
         this.mWaveHeight = mWaveHight;
         this.mWaveHalfWidth = mWaveWidth / 2;
     }
-
 
     public void setWaveColor(String mWaveColor) {
         this.mWaveColor = mWaveColor;
@@ -126,16 +123,16 @@ public class WaveProgressView extends View {
         mTextPaint.setTextAlign(Paint.Align.CENTER);
     }
     
-    @override
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         handler.sendEmptyMessage(INVALIDATE);
     }
 
-    @override
+    @Override
     protected void onDetachedFromWindow() {
-        handler.removeCallbacksAndMessages(null);
         super.onDetachedFromWindow();
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
